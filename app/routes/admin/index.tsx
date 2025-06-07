@@ -1,3 +1,12 @@
+import { Header } from "components";
+
 export default function AdminDashboard() {
-  return <div>AdminDashboard</div>;
+  return (
+    <main className="dashboard wrapper">
+      <Header
+        title="Admin Dashboard"
+        description="Manage your application settings and users"
+      />
+    </main>
+  );
 }
