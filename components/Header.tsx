@@ -1,4 +1,5 @@
 import { cn } from "lib/utils";
+import { useLocation } from "react-router";
 
 export default function Header({
   title,
@@ -7,6 +8,8 @@ export default function Header({
   title: string;
   description: string;
 }) {
+  const location = useLocation();
+
   return (
     <header className="header">
       <article>
