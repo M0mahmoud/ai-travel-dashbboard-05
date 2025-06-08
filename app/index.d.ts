@@ -2,13 +2,13 @@ declare interface BaseUser {
   id: string;
   name: string;
   email: string;
-  dateJoined: string;
-  imageUrl: string;
+  created_at: string;
+  image_url: string;
 }
 
 declare interface UserData extends BaseUser {
   itineraryCreated: number | string;
-  status: "user" | "admin";
+  role: "USER" | "ADMIN";
 }
 
 declare type User = BaseUser;

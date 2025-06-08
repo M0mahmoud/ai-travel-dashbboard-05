@@ -1,5 +1,7 @@
 import { Header, StatsCard, TripCard } from "components";
+import { getUser } from "~/appwrite/user";
 import { allTrips } from "~/constants";
+import type { Route } from "./+types/layout";
 
 const dashboardStats = {
   totalUsers: 1500,
@@ -19,11 +21,15 @@ const dashboardStats = {
   },
 };
 
-export default function AdminDashboard() {
+export const clientLoader = async () => await getUser();
+
+export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
+  const user = (loaderData as unknown as User) || null;
+
   return (
     <main className="dashboard wrapper">
       <Header
-        title="Admin Dashboard"
+        title={`Welcome back, ${user.name}!`}
         description="Manage your application settings and users"
       />
 

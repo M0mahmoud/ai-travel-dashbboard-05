@@ -1,5 +1,6 @@
 import { cn } from "lib/utils";
-import { Link, NavLink, useNavigate } from "react-router";
+import { Link, NavLink, useLoaderData, useNavigate } from "react-router";
+import { logoutUser } from "~/appwrite/auth";
 import { sidebarItems } from "~/constants";
 
 export default function NavItems({
@@ -9,16 +10,10 @@ export default function NavItems({
 }) {
   const navigate = useNavigate();
 
-  const user = {
-    name: "Admin",
-    email: "admin@example.com",
-    imageUrl: "/assets/images/david.webp",
-    // This can be replaced with actual user data from context or props
-  };
+  const user = useLoaderData();
 
-  const handleLogout = () => {
-    // Implement logout functionality here
-    console.log("User logged out");
+  const handleLogout = async () => {
+    await logoutUser();
     navigate("/login");
   };
 
@@ -58,7 +53,7 @@ export default function NavItems({
 
         <footer className="nav-footer">
           <img
-            src={user?.imageUrl || "/assets/images/david.webp"}
+            src={user?.image_url || "/assets/images/david.webp"}
             alt={user?.name || "Admin"}
             referrerPolicy="no-referrer"
           />
