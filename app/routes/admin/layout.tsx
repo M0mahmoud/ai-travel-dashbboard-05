@@ -1,8 +1,9 @@
-import { Outlet, redirect } from "react-router";
+import { Outlet, redirect, useLocation } from "react-router";
 import { SidebarComponent } from "@syncfusion/ej2-react-navigations";
 import { MobileSidebar, NavItems } from "components";
 import { account } from "~/appwrite/client";
 import { getExistingUser, storeUserData } from "~/appwrite/user";
+import { useEffect } from "react";
 
 export async function clientLoader() {
   try {
@@ -24,6 +25,39 @@ export async function clientLoader() {
 }
 
 export default function DashboardLayout() {
+  const location = useLocation();
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const banners = document.querySelectorAll(
+        "div[style*='position: fixed'][style*='z-index: 999999999']"
+      );
+      banners.forEach((el) => {
+        if (
+          el.textContent?.includes("Syncfusion") &&
+          el.textContent?.includes("license")
+        ) {
+          el.remove();
+        }
+      });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Run once immediately
+    const banners = document.querySelectorAll(
+      "div[style*='position: fixed'][style*='z-index: 999999999']"
+    );
+    banners.forEach((el) => {
+      if (
+        el.textContent?.includes("Syncfusion") &&
+        el.textContent?.includes("license")
+      ) {
+        el.remove();
+      }
+    });
+
+    return () => observer.disconnect();
+  }, [location]);
   return (
     <div className="admin-layout">
       <MobileSidebar />
