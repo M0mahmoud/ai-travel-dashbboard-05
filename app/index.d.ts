@@ -67,10 +67,11 @@ declare interface Trip {
   interests: string;
   groupType: string;
   country: string;
-  imageUrls: string[];
+  image_url: string[];
   itinerary: DayPlan[];
   bestTimeToVisit: string[];
   weatherInfo: string[];
+  coordinates: [number, number];
   location: Location;
   payment_link: string;
 }

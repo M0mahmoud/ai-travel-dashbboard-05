@@ -85,6 +85,9 @@ export default function CreateTrip({ loaderData }: Route.ComponentProps) {
           budget: formData.budget,
           groupType: formData.groupType,
           userId: user.$id,
+          coordinates:
+            countries.find((c: Country) => c.name === formData.country)
+              ?.coordinates || [],
         }),
       });
 
@@ -95,10 +98,11 @@ export default function CreateTrip({ loaderData }: Route.ComponentProps) {
         console.error("Failed to generate a trip");
         setError("Failed to generate a trip. Please try again.");
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error("Error generating trip", e);
       setError(
-        "An error occurred while generating the trip. Please try again."
+        e.message ||
+          "An error occurred while generating the trip. Please try again."
       );
     } finally {
       setLoading(false);

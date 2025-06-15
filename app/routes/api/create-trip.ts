@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 
 import { appwriteConfig, database } from "~/appwrite/client";
 import { ID } from "appwrite";
-import { parseMarkdownToJson, parseTripData } from "lib/utils";
+import { parseMarkdownToJson } from "lib/utils";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const {
@@ -14,6 +14,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     budget,
     groupType,
     userId,
+    coordinates,
   } = await request.json();
 
   const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
@@ -25,15 +26,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         Interests: '${interests}'
         TravelStyle: '${travelStyle}'
         GroupType: '${groupType}'
-        Return the itinerary and lowest estimated price in a clean, non-markdown JSON format with the following structure:
+        Return ONLY a valid JSON object with the following structure - DO NOT include markdown code blocks or any other text:
         {
         "name": "A descriptive title for the trip",
-        "description": "A brief description of the trip and its highlights over 1000 words",
+        "description": "A brief description of the trip and its highlights max number of words 1000",
         "estimatedPrice": "Lowest average price for the trip in USD, e.g.$price",
         "duration": ${numberOfDays},
         "budget": "${budget}",
         "travelStyle": "${travelStyle}",
         "country": "${country}",
+        "coordinates": [${coordinates[0]}, ${coordinates[1]}],
         "interests": ${interests},
         "groupType": "${groupType}",
         "bestTimeToVisit": [
@@ -65,7 +67,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         },
         ...
         ]
-    }`;
+    }
+    Important rules:
+    1. Must be valid JSON (all strings quoted, no trailing commas)
+    2. No markdown code blocks (no \`\`\`json)
+    3. No additional text outside the JSON object
+    `;
 
     const textResult = await genAI.models.generateContent({
       model: "gemini-1.5-flash",
@@ -77,6 +84,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
 
     const trip = parseMarkdownToJson(textResult.text || "");
+
+    if (!trip) {
+      console.error("Raw AI Response:", textResult.text);
+      throw new Error("Failed to parse trip data. See logs for raw response.");
+    }
 
     const imageResponse = await fetch(
       `https://api.unsplash.com/search/photos?query=${country} ${interests} ${travelStyle}&client_id=${unsplashApiKey}`

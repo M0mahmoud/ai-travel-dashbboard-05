@@ -9,21 +9,44 @@ export function cn(...inputs: ClassValue[]) {
 export const formatDate = (dateString: string): string => {
   return dayjs(dateString).format("MMMM DD, YYYY");
 };
-
 export function parseMarkdownToJson(markdownText: string): unknown | null {
-  const regex = /```json\n([\s\S]+?)\n```/;
-  const match = markdownText.match(regex);
+  if (!markdownText) return null;
 
-  if (match && match[1]) {
+  // Normalize quotes (smart quotes to standard)
+  const normalized = markdownText.replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
+
+  // Try to extract JSON inside any code block (```json, ```js, or even ```text)
+  const codeBlocks = Array.from(
+    normalized.matchAll(/```(?:json|js|text)?\s*([\s\S]+?)\s*```/gi)
+  );
+
+  for (const match of codeBlocks) {
+    const block = match[1].trim();
     try {
-      return JSON.parse(match[1]);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-      return null;
+      return JSON.parse(block);
+    } catch (err) {
+      console.warn("⚠️ Failed parsing block, trying next:", err);
     }
   }
-  console.error("No valid JSON found in markdown text.");
-  return null;
+
+  // Try to extract anything that looks like a JSON object
+  const jsonLikeMatch = normalized.match(/{[\s\S]+}/);
+  if (jsonLikeMatch) {
+    try {
+      return JSON.parse(jsonLikeMatch[0]);
+    } catch (err) {
+      console.warn("⚠️ Could not parse JSON-like match:", err);
+    }
+  }
+
+  // Finally try the whole response as JSON
+  try {
+    return JSON.parse(normalized.trim());
+  } catch (err) {
+    console.error("❌ Final JSON parsing failed:", err);
+    console.error("📄 Problematic content:\n", markdownText);
+    return null;
+  }
 }
 
 export function parseTripData(jsonString: string): Trip | null {
