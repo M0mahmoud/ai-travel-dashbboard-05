@@ -68,7 +68,7 @@ export default function Trips({ loaderData }: Route.ComponentProps) {
 
           <PagerComponent
             totalRecordsCount={loaderData.total}
-            pageSize={8}
+            pageSize={12}
             currentPage={currentPage}
             click={(args) => handlePageChange(args.currentPage)}
             cssClass="!mb-4"
