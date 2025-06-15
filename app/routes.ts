@@ -4,6 +4,9 @@ export default [
   // Authentication routes
   route("login", "routes/auth/Login.tsx"),
 
+  // API
+  route("api/create-trip", "routes/api/create-trip.ts"),
+
   // Dashboard routes
   layout("routes/admin/layout.tsx", [
     route("dashboard", "routes/admin/index.tsx"),

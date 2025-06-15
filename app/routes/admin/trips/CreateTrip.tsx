@@ -19,7 +19,6 @@ export const loader = async () => {
     "https://restcountries.com/v3.1/all?fields=name,flags,flag,latlng,maps"
   );
   const data = await response.json();
-  console.log("🚀 ~ loader ~ data:", data);
   return data.map((country: any) => ({
     name: country.name.common,
     flag: country.flags?.svg || country.flags?.png,
