@@ -134,7 +134,7 @@ type GetAllTripsResponse = {
 };
 
 declare interface UsersItineraryCount {
-  imageUrl: string;
+  image_url: string;
   name: string;
   count: number;
 }
