@@ -24,6 +24,38 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
+
+  {
+    rel: "icon",
+    type: "image/png",
+    href: "/favicon-96x96.png",
+    sizes: "96x96",
+  },
+  {
+    rel: "icon",
+    type: "image/png",
+    href: "/favicon-32x32.png",
+    sizes: "32x32",
+  },
+  {
+    rel: "icon",
+    type: "image/png",
+    href: "/favicon-16x16.png",
+    sizes: "16x16",
+  },
+  {
+    rel: "icon",
+    type: "image/svg+xml",
+    href: "/favicon.svg",
+  },
+  {
+    rel: "shortcut icon",
+    href: "/favicon.ico",
+  },
+  {
+    rel: "manifest",
+    href: "/site.webmanifest",
+  },
 ];
 
 // Register Syncfusion license key
