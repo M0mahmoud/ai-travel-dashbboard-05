@@ -54,7 +54,9 @@ export default function ClientNavbar() {
                 "text-dark-100": location.pathname.startsWith("/travel"),
               })}
             >
-              Login
+              {location.pathname.startsWith("/travel")
+                ? "Create a trip"
+                : "Login"}
             </Link>
           )}
 
