@@ -103,6 +103,7 @@ export const getUser = async () => {
           "image_url",
           "created_at",
           "account_id",
+          "role",
         ]),
       ]
     );

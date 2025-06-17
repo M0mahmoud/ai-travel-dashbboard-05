@@ -38,7 +38,7 @@ export default function ClientNavbar() {
         </Link>
 
         <aside>
-          {user.status === "admin" && (
+          {user ? (
             <Link
               to="/dashboard"
               className={cn("text-base font-normal text-white", {
@@ -47,21 +47,34 @@ export default function ClientNavbar() {
             >
               Admin Panel
             </Link>
+          ) : (
+            <Link
+              to="/login"
+              className={cn("text-base font-normal text-white", {
+                "text-dark-100": location.pathname.startsWith("/travel"),
+              })}
+            >
+              Login
+            </Link>
           )}
 
-          <img
-            src={user?.image_url || "/assets/images/david.wepb"}
-            alt="user"
-            referrerPolicy="no-referrer"
-          />
-
-          <button onClick={handleLogout} className="cursor-pointer">
+          {user && (
             <img
-              src="/assets/icons/logout.svg"
-              alt="logout"
-              className="size-6 rotate-180"
+              src={user?.image_url || "/assets/images/david.wepb"}
+              alt="user"
+              referrerPolicy="no-referrer"
             />
-          </button>
+          )}
+
+          {user && (
+            <button onClick={handleLogout} className="cursor-pointer">
+              <img
+                src="/assets/icons/logout.svg"
+                alt="logout"
+                className="size-6 rotate-180"
+              />
+            </button>
+          )}
         </aside>
       </header>
     </nav>

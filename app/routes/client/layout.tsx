@@ -13,7 +13,7 @@ export async function clientLoader() {
     return existingUser?.$id ? existingUser : await storeUserData();
   } catch (e) {
     console.log("Error fetching user", e);
-    return redirect("/login");
+    // return redirect("/login");
   }
 }
 

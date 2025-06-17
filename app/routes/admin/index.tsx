@@ -1,5 +1,5 @@
 import { Header, StatsCard, TripCard } from "components";
-import { getAllUsers, getUser } from "~/appwrite/user";
+import { getUser } from "~/appwrite/user";
 import { tripXAxis, tripyAxis, userXAxis, useryAxis } from "~/constants";
 import type { Route } from "./+types/layout";
 import {
@@ -31,14 +31,14 @@ export const clientLoader = async () => {
     trips,
     userGrowth,
     tripsByTravelStyle,
-    allUsers,
+    // allUsers,
   ] = await Promise.all([
     await getUser(),
     await getUsersAndTripsStats(),
     await getAllTrips(4, 0),
     await getUserGrowthPerDay(),
     await getTripsByTravelStyle(),
-    await getAllUsers(4, 0),
+    // await getAllUsers(4, 0),
   ]);
 
   const allTrips = trips.trips.map(({ $id, itinerary_details, image_url }) => ({
@@ -47,11 +47,11 @@ export const clientLoader = async () => {
     image_url: image_url || [],
   }));
 
-  const mappedUsers: UsersItineraryCount[] = allUsers.users.map((user) => ({
-    image_url: user.image_url,
-    name: user.name,
-    count: user.itineraryCount ?? Math.floor(Math.random() * 10),
-  }));
+  // const mappedUsers: UsersItineraryCount[] = allUsers.users.map((user) => ({
+  //   image_url: user.image_url,
+  //   name: user.name,
+  //   count: user.itineraryCount ?? Math.floor(Math.random() * 10),
+  // }));
 
   return {
     user,
@@ -59,7 +59,7 @@ export const clientLoader = async () => {
     allTrips,
     userGrowth,
     tripsByTravelStyle,
-    allUsers: mappedUsers,
+    // allUsers: mappedUsers,
   };
 };
 
@@ -76,7 +76,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
     // @ts-ignore
     tripsByTravelStyle,
     // @ts-ignore
-    allUsers,
+    // allUsers,
   } = loaderData;
 
   const trips = allTrips.map((trip: Trip) => ({
@@ -86,12 +86,12 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
   }));
 
   const usersAndTrips = [
-    {
-      title: "Latest user signups",
-      dataSource: allUsers,
-      field: "count",
-      headerText: "Trips created",
-    },
+    // {
+    //   title: "Latest user signups",
+    //   dataSource: allUsers,
+    //   field: "count",
+    //   headerText: "Trips created",
+    // },
     {
       title: "Trips based on interests",
       dataSource: trips,

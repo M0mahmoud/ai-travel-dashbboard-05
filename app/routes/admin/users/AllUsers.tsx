@@ -1,5 +1,5 @@
 import { Header } from "components";
-import { getAllUsers } from "~/appwrite/user";
+import { getAllUsers, getUser } from "~/appwrite/user";
 import type { Route } from "./+types/AllUsers";
 import {
   ColumnsDirective,
@@ -8,17 +8,51 @@ import {
 } from "@syncfusion/ej2-react-grids";
 import { cn, formatDate } from "lib/utils";
 
-export const loader = async () => {
-  const { users, total } = await getAllUsers(20, 0);
-  return {
-    users,
-    total,
-  };
+export const clientLoader = async () => {
+  try {
+    const sessionUser = await getUser();
+
+    // @ts-ignore
+    const isAdmin = sessionUser?.role === "ADMIN" || false;
+
+    if (!isAdmin) {
+      return { isAdmin: false, total: 0, users: [] };
+    }
+
+    const { users, total } = await getAllUsers(20, 0);
+    return {
+      users,
+      total,
+      isAdmin: true,
+    };
+  } catch (error) {
+    console.error("❌ Error in loader:", error);
+    return { isAdmin: false, total: 0, users: [] };
+  }
 };
 
 export default function AllUsers({ loaderData }: Route.ComponentProps) {
-  const { users, total } = loaderData;
-  console.log("🚀 ~ AllUsers ~ users:", users);
+  const { users, isAdmin } = loaderData;
+
+  if (!isAdmin) {
+    return (
+      <main className="dashboard wrapper">
+        <Header
+          title="All Users"
+          description="You do not have permission to view this page."
+        />
+        <p className="text-center">Access denied. Admins only.</p>
+        <img
+          src="/assets/users.png"
+          alt="Access Denied"
+          width={800}
+          height={700}
+          className="mx-auto mt-4 w-full"
+          referrerPolicy="no-referrer"
+        />
+      </main>
+    );
+  }
 
   if (!users || users.length === 0) {
     return (
