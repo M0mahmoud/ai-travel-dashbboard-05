@@ -2,8 +2,8 @@ import { cn, getFirstWord, parseTripData } from "lib/utils";
 import type { LoaderFunctionArgs } from "react-router";
 import { getAllTrips, getTripById } from "~/appwrite/trips";
 import type { Route } from "./+types/TripDetails";
-import { Header, TripCard } from "components";
-import InfoPill from "components/InfoPill";
+import { Header, TripCard, InfoPill } from "components";
+
 import {
   ChipDirective,
   ChipListComponent,
