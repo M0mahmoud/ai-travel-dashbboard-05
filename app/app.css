@@ -539,3 +539,9 @@ body {
   top: 45px;
   right: 40px;
 }
+
+/* Customize if needed */
+#nprogress .bar {
+  background: #256ff1;
+  height: 4px;
+}
