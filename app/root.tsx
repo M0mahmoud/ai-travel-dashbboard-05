@@ -5,8 +5,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
 } from "react-router";
 import * as Sentry from "@sentry/react-router";
+import NProgress from "nprogress";
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -26,6 +28,7 @@ export const links: Route.LinksFunction = () => [
 
 // Register Syncfusion license key
 import { registerLicense } from "@syncfusion/ej2-base";
+import { useEffect } from "react";
 registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -47,6 +50,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (navigation.state === "loading") {
+      NProgress.start();
+    } else {
+      NProgress.done();
+    }
+  }, [navigation.state]);
   return <Outlet />;
 }
 
