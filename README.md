@@ -1,87 +1,141 @@
-# Welcome to React Router!
+# AI Travel Dashboard
 
-A modern, production-ready template for building full-stack React applications using React Router.
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
-
-## Features
-
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
-
-## Getting Started
-
-### Installation
-
-Install the dependencies:
-
-```bash
-npm install
-```
-
-### Development
-
-Start the development server with HMR:
-
-```bash
-npm run dev
-```
-
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+Welcome to the AI Travel Dashboard! This project is a modern, full-stack web application designed to simplify travel planning using AI-generated itineraries. It provides users with a seamless experience to create, view, and manage travel plans tailored to their preferences.
 
 ---
 
-Built with ❤️ using React Router.
+## Features
+
+### Core Features
+
+- **AI-Generated Itineraries**: Generate travel plans based on user preferences such as budget, interests, travel style, and group type.
+- **Interactive Maps**: Visualize travel destinations on a world map.
+- **Trip Management**: View trip details, edit plans, and explore popular trips.
+- **Authentication**: Secure user login and account management.
+- **Payment Integration**: Stripe integration for trip payments.
+- **Authentication Integration**: Login with Google and GitHub provides
+
+### Admin Features
+
+- **Dashboard**: View user and trip statistics.
+- **User Management**: Manage user accounts and roles.
+- **Trip Insights**: Analyze trips by travel style and growth trends.
+
+---
+
+## Technologies Used
+
+### Frontend
+
+- **React**: For building the user interface.
+- **React Router**: For routing and server-side rendering.
+- **Tailwind CSS**: For styling and responsive design.
+- **Syncfusion Components**: For advanced UI elements like maps, grids, and dropdowns.
+
+### Backend
+
+- **Appwrite**: For database, authentication, and storage.
+- **Node.js**: For server-side logic.
+- **Google GenAI**: For generating AI-based travel itineraries.
+- **Stripe**: For payment processing.
+
+### Dev Tools
+
+- **TypeScript**: For type-safe development.
+- **Vite**: For fast builds and development.
+- **Docker**: For containerized deployment.
+- **Sentry**: For error tracking and monitoring.
+
+---
+
+## Project Structure
+
+### Folder Overview
+
+- **app/**: Contains the main application code, including routes, components, and styles.
+- **components/**: Reusable UI components like `Header`, `TripCard`, and `InfoPill`.
+- **lib/**: Utility functions and integrations like `stripe.ts` and `utils.ts`.
+- **images/**: Static assets used in the application.
+- **appwrite/**: Appwrite client configuration and API integrations.
+
+### Key Files
+
+- `app/routes/admin/trips/CreateTrip.tsx`: Component for creating new trips.
+- `app/routes/admin/trips/TripDetails.tsx`: Component for viewing trip details.
+- `appwrite/client.ts`: Appwrite client setup.
+- `lib/utils.ts`: Utility functions for parsing and formatting data.
+
+---
+
+## Development Process
+
+### Learning and Implementation
+
+This project was inspired by a YouTube video tutorial where the creator built a dashboard. I followed the video to learn how to structure the dashboard and implement its features. After completing the dashboard, I extended the project by adding client pages, Stripe integration for payments, and other enhancements to make it a complete travel planning application.
+
+---
+
+## Installation
+
+### Prerequisites
+
+- Node.js
+- Docker (optional for deployment)
+
+### Steps
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/ai-travel-dashboard.git
+   cd ai-travel-dashboard
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## Images
+
+Below are the images used in the project:
+
+### Home Page
+
+![Home](images/home.jpeg)
+
+### Trip Details
+
+![Trip Details](images/trip-details.jpeg)
+
+### Payment
+
+![Payment](images/payment.jpeg)
+
+### Payment Success
+
+![Payment Success](images/payment-success.jpeg)
+
+### Dashboard
+
+![Dashboard](images/dashboard.jpeg)
+
+### Dashboard Trips
+
+![Dashboard](images/trips.jpeg)
+
+### All Users
+
+![All Users](images/all-users.png)
+
+### Create Trip
+
+![Create Trip](images/create-trip.jpeg)
+
+### Login
+
+![Login](images/login.png)
