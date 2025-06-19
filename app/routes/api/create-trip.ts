@@ -3,7 +3,8 @@ import { GoogleGenAI } from "@google/genai";
 
 import { appwriteConfig, database } from "~/appwrite/client";
 import { ID } from "appwrite";
-import { parseMarkdownToJson } from "lib/utils";
+import { parseMarkdownToJson, parseTripData } from "lib/utils";
+import { createStripeProduct } from "lib/stripe";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const {
@@ -83,7 +84,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       throw new Error("No text result returned from Gemini AI");
     }
 
+    console.log("🚀 ~ action ~ textResult.text:", textResult.text);
     const trip = parseMarkdownToJson(textResult.text || "");
+    console.log("🚀 ~ action ~ trip:", trip);
 
     if (!trip) {
       console.error("Raw AI Response:", textResult.text);
@@ -109,24 +112,27 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       }
     );
 
-    // const tripDetail = parseTripData(result.tripDetails) as Trip;
-    // const tripPrice = parseInt(tripDetail.estimatedPrice.replace("$", ""), 10);
-    // const paymentLink = await createProduct(
-    //   tripDetail.name,
-    //   tripDetail.description,
-    //   imageUrls,
-    //   tripPrice,
-    //   result.$id
-    // );
+    const tripDetails = parseTripData(result.itinerary_details) as Trip;
+    const tripePrice = parseInt(
+      tripDetails.estimatedPrice.replace("$", ""),
+      10
+    );
+    const paymentLink = await createStripeProduct(
+      tripDetails.name,
+      tripDetails.description,
+      imageUrls,
+      tripePrice,
+      result.$id
+    );
 
-    // await database.updateDocument(
-    //   appwriteConfig.databaseId,
-    //   appwriteConfig.itineraryCollectionId,
-    //   result.$id,
-    //   {
-    //     payment_link: paymentLink.url,
-    //   }
-    // );
+    await database.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.itineraryCollectionId,
+      result.$id,
+      {
+        payment_url: paymentLink.url,
+      }
+    );
 
     return data({ id: result.$id });
   } catch (e) {

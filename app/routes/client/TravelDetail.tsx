@@ -4,6 +4,7 @@ import { getAllTrips, getTripById } from "~/appwrite/trips";
 import type { Route } from "./+types/TravelDetail";
 import { InfoPill, TripCard } from "components";
 import {
+  ButtonComponent,
   ChipDirective,
   ChipListComponent,
   ChipsDirective,
@@ -31,6 +32,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 export default function TravelDetail({ loaderData }: Route.ComponentProps) {
   const allTrips = loaderData.allTrips as Trip[] | [];
   const imageUrls = loaderData?.trip?.image_url || [];
+  const payment_url = loaderData?.trip?.payment_url || "";
   const tripData = parseTripData(loaderData?.trip?.itinerary_details);
 
   const {
@@ -210,6 +212,17 @@ export default function TravelDetail({ loaderData }: Route.ComponentProps) {
               className="w-full h-full !border-none"
             />
           </section>
+
+          {payment_url && (
+            <a href={payment_url} className="flex w-full h-14">
+              <ButtonComponent className="button-class !w-full" type="submit">
+                <span className="p-16-semibold text-white">
+                  Pay to join the trip
+                </span>
+                <span className="price-pill">{estimatedPrice}</span>
+              </ButtonComponent>
+            </a>
+          )}
         </section>
       </div>
       <section className="flex flex-col gap-6">
