@@ -214,14 +214,36 @@ export default function TravelDetail({ loaderData }: Route.ComponentProps) {
           </section>
 
           {payment_url && (
-            <a href={payment_url} className="flex w-full h-14">
-              <ButtonComponent className="button-class !w-full" type="submit">
-                <span className="p-16-semibold text-white">
-                  Pay to join the trip
-                </span>
-                <span className="price-pill">{estimatedPrice}</span>
-              </ButtonComponent>
-            </a>
+            <>
+              <a href={payment_url} className="flex w-full h-14 ">
+                <ButtonComponent className="button-class !w-full" type="submit">
+                  <span className="p-16-semibold text-white">
+                    Pay to join the trip
+                  </span>
+                  <span className="price-pill">{estimatedPrice}</span>
+                </ButtonComponent>
+              </a>
+              <div className="flex flex-col gap-3 ">
+                <p className="text-sm md:text-lg font-semibold text-dark-400">
+                  Use the following card details to test the payment flow. You
+                  will not be charged.
+                </p>
+                <div className="flex gap-3 flex-col">
+                  <div className="flex gap-3">
+                    <span className="text-dark-100">Card Number:</span>
+                    <span className="text-dark-400">4242 4242 4242 4242</span>
+                  </div>
+                  <div className="flex gap-3">
+                    <span className="text-dark-100">Expiry Date:</span>
+                    <span className="text-dark-400">12/34</span>
+                  </div>
+                  <div className="flex gap-3">
+                    <span className="text-dark-100">CVV:</span>
+                    <span className="text-dark-400">123</span>
+                  </div>
+                </div>
+              </div>
+            </>
           )}
         </section>
       </div>
